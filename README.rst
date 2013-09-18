@@ -33,6 +33,11 @@ The notes server relies on environment variables for its configuration. The requ
   lost, etc.). E.g. ``Notes <info@awesomenotes.net>``.
 * ``DATABASE_URL``: a heroku-like database URL. E.g.
   ``postgres://user:password@host:port/database``.
+* ``AWS_ACCESS_KEY_ID``: your amazon S3 key id
+* ``AWS_SECRET_ACCESS_KEY``: your amazon S3 secret access key
+* ``S3_BUCKET_NAME``: your amazon S3 bucket name
+* ``SENTRY_DSN``: your sentry URL
+* ``SMTP_URL``: your smtp URL, e.g. //username:password@host:port?sender=info@awesomenotes.net
 
 Optionally you can customize:
 
