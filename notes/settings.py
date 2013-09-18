@@ -180,6 +180,12 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
+    'formatters': {
+        'verbose': {
+            'format': ('%(levelname)s %(asctime)s %(module)s %(process)d '
+                       '%(thread)d %(message)s')
+        },
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
@@ -189,7 +195,7 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'notime',
+            'formatter': 'verbose',
         },
         'sentry': {
             'level': 'INFO',
