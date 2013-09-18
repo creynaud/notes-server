@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load sekizai_tags staticfiles %}
+
+{% block content %}
+<div class="container">
+	<div class="pitch">
+		<h2>Your notes</h2>
+	</div>
+</div>
+<div class="container">
+  <ul>
+	{% for note in object_list %}
+		<li>
+			<p>{{ note.title }}</p>
+			<p>{{ note.text }}</p>
+		</li>
+	{% endfor %}
+  </ul>
+</div>
+{% endblock %}

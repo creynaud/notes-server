@@ -1,0 +1,29 @@
+{% extends "min_base.html" %}
+
+{% load sekizai_tags staticfiles %}
+
+{% block left-header %}
+<h1><a href="/">Notes</a></h1>
+<p>Offline Notes Demo.</p>
+{% endblock %}
+
+{% block right-header %}
+{% if user.is_authenticated %}
+	<a href="{% url "my_notes" %}">{% trans "My Notes" %}</a>
+	{% if user.is_staff %}
+		<a href="{% url "admin:index" %}">{% trans "Admin" %}</a>
+	{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block messages %}
+<div id="messages">
+	{% for m in messages %}
+		<p class="{{ m.tags }}">{{ m|safe }}</p>
+	{% endfor %}
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="right"><a href="mailto:todo">CONTACT</a></div>
+{% endblock %}

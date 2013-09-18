@@ -1,0 +1,43 @@
+{% load staticfiles sekizai_tags i18n %}<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>{% block title %}Notes{% endblock %}</title>
+		<meta name="keywords" content="notes, offline"/>
+		<link rel="stylesheet" href="{% static "core/css/screen.css" %}">
+		{% block extrahead %}{% endblock %}
+		{% render_block "css" %}
+	</head>
+	<body>
+		<div id="wrapper">
+			<div>
+				<div class="container">
+					<header>
+						<div id="left-header">
+							{% block left-header %}{% endblock %}
+						</div>
+						<div id="center-header">
+							{% block center-header %}{% endblock %}
+						</div>
+						<div id="right-header">
+							{% block right-header %}{% endblock %}
+						</div>
+					</header>
+					{% block messages %}{% endblock %}
+				</div>
+			</div>
+			<div id="content">
+				{% block content %}{% endblock %}
+			</div>
+			<div id="push"></div>
+		</div>
+		<div>
+			<div class="container">
+				<footer>
+					{% block footer %}{% endblock %}
+				</footer>
+			</div>
+		</div>
+		{% render_block "js" %}
+	</body>
+</html>
