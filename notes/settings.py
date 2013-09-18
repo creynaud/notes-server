@@ -41,7 +41,7 @@ if DEBUG:
 else:
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    AWS_STORAGE_BUCKET_NAME = 'todo'
+    AWS_STORAGE_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 
     DEFAULT_FILE_STORAGE = 'notes.s3utils.MediaRootS3BotoStorage'
     STATICFILES_STORAGE = 'notes.s3utils.StaticRootS3BotoStorage'
