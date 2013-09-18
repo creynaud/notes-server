@@ -12,6 +12,7 @@ oauthlib==0.6.0
 psycopg2==2.5.1
 python-dateutil==2.1
 python-openid==2.2.5
+raven==3.4.1
 requests==1.2.3
 requests-oauthlib==0.3.3
 six==1.4.1

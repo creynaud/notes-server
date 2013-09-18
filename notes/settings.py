@@ -162,6 +162,11 @@ else:
         EMAIL_HOST_PASSWORD = parsed_email_url.password
     EMAIL_USE_TLS = False
 
+if 'SENTRY_DSN' in os.environ:
+    INSTALLED_APPS += (
+        'raven.contrib.django',
+    )
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -180,13 +185,27 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.handlers.SentryHandler',
+        },
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'raven': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     }
 }
