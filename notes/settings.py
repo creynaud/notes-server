@@ -186,6 +186,11 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'notime',
+        },
         'sentry': {
             'level': 'INFO',
             'class': 'raven.contrib.django.handlers.SentryHandler',
@@ -206,6 +211,10 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
+        },
+        'notes': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'INFO',
         },
     }
 }
