@@ -1,3 +1,6 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.http import etag
+
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions
 from rest_framework.status import HTTP_409_CONFLICT, HTTP_400_BAD_REQUEST
@@ -6,9 +9,24 @@ from ..core.models import Note
 from .serializers import NoteSerializer
 
 
+def etag_note(request, uuid):
+    if uuid:
+        try:
+            return Note.objects.get(uuid=uuid).revision
+        except Note.DoesNotExist:
+            pass
+    else:
+        return None
+
+
 class DocumentViewSetMixin(viewsets.ModelViewSet):
     lookup_field = 'uuid'
     permission_classes = (permissions.IsAuthenticated,)
+
+    @method_decorator(etag(etag_func=etag_note))
+    def retrieve(self, request, *args, **kwargs):
+        return super(DocumentViewSetMixin, self).retrieve(request, *args,
+                                                          **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
