@@ -2,11 +2,12 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import etag
 
 from rest_framework.response import Response
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, mixins
 from rest_framework.status import HTTP_409_CONFLICT, HTTP_400_BAD_REQUEST
+from rest_framework.viewsets import GenericViewSet
 
 from ..core.models import Note
-from .serializers import NoteSerializer
+from .serializers import NoteSerializer, NoteUUIDAndRevisionSerializer
 
 
 def etag_note(request, uuid):
@@ -66,6 +67,15 @@ class DocumentViewSetMixin(viewsets.ModelViewSet):
 class NotesViewSet(DocumentViewSetMixin):
     model = Note
     serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        return Note.objects.filter(owner=self.request.user)
+
+
+class NoteUUIDAndRevisionViewSet(mixins.ListModelMixin, GenericViewSet):
+    model = Note
+    serializer_class = NoteUUIDAndRevisionSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         return Note.objects.filter(owner=self.request.user)

@@ -6,6 +6,8 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'notes', views.NotesViewSet)
+router.register(r'notes-uuids', views.NoteUUIDAndRevisionViewSet,
+                base_name='notes-uuids')
 
 # We include the login URLs for the browseable API.
 urlpatterns = patterns(

@@ -13,6 +13,11 @@ class APITestNotAuthenticated(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+    def test_get_notes_uuids_not_authenticated(self):
+        url = reverse('notes-uuids-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
     def test_get_note_not_authenticated(self):
         note = NoteFactory.create()
         url = reverse('note-detail', args=[note.uuid])
@@ -65,7 +70,7 @@ class APITestAuthenticated(APITestCase):
         response = self.client.put(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_get_notes_not_authenticated(self):
+    def test_get_notes(self):
         user1 = UserFactory.create()
         note1 = NoteFactory.create(owner=user1)
 
@@ -77,7 +82,28 @@ class APITestAuthenticated(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertContains(response, note1.uuid)
+        self.assertContains(response, note1.revision)
+        self.assertContains(response, note1.text)
+        self.assertContains(response, note1.title)
         self.assertNotContains(response, note2.uuid)
+
+    def test_get_notes_uuids(self):
+        user1 = UserFactory.create()
+        note1 = NoteFactory.create(owner=user1)
+
+        user2 = UserFactory.create()
+        note2 = NoteFactory.create(owner=user2)
+
+        url = reverse('notes-uuids-list')
+        self.client.force_authenticate(user=user1)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, note1.uuid)
+        self.assertContains(response, note1.revision)
+        self.assertNotContains(response, note1.text)
+        self.assertNotContains(response, note1.title)
+        self.assertNotContains(response, note2.uuid)
+        self.assertNotContains(response, note2.revision)
 
     def test_get_note(self):
         note = NoteFactory.create()

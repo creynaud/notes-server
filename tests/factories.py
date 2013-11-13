@@ -19,3 +19,11 @@ class UserFactory(DjangoModelFactory):
 class NoteFactory(DjangoModelFactory):
     FACTORY_FOR = Note
     owner = SubFactory(UserFactory)
+
+    @lazy_attribute
+    def text(self):
+        return "Some text"
+
+    @lazy_attribute
+    def title(self):
+        return "Title"
